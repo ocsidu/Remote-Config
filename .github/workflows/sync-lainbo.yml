@@ -38,7 +38,7 @@ jobs:
           cp -f upstream/src/Clash/RemoteConfig/Lainbo.ini src/Clash/RemoteConfig/Lainbo.ini
 
       - name: Apply local patch (content-based edits)
-        run: bash scripts/patch-lainbo.sh
+        run: bash .github/workflows/patch-lainbo.sh
 
       - name: Commit and push if changed
         shell: bash
