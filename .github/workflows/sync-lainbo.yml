@@ -3,7 +3,7 @@ name: Sync and patch Lainbo.ini (weekly)
 on:
   schedule:
     # 每周一 02:05（UTC）执行；中国时间为每周一 10:05（UTC+8）
-    - cron: "45 10 * * 2"
+    - cron: "50 10 * * 2"
   workflow_dispatch:  # 支持手动触发
 
 permissions:
