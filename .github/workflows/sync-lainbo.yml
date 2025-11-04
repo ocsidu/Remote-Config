@@ -1,0 +1,57 @@
+name: Sync and patch Lainbo.ini (weekly)
+
+on:
+  schedule:
+    # 每周一 02:05（UTC）执行；中国时间为每周一 10:05（UTC+8）
+    - cron: "45 10 * * 2"
+  workflow_dispatch:  # 支持手动触发
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-remote-config
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repo (your repo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout upstream repo (lainbo/gists-hub@master)
+        uses: actions/checkout@v4
+        with:
+          repository: lainbo/gists-hub
+          ref: master
+          path: upstream
+          fetch-depth: 1
+
+      - name: Prepare paths and copy latest file
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p src/Clash/RemoteConfig
+          cp -f upstream/src/Clash/RemoteConfig/Lainbo.ini src/Clash/RemoteConfig/Lainbo.ini
+
+      - name: Apply local patch (content-based edits)
+        run: bash scripts/patch-lainbo.sh
+
+      - name: Commit and push if changed
+        shell: bash
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 仅在文件确实变化时提交，避免空提交
+          if git diff --quiet -- src/Clash/RemoteConfig/Lainbo.ini; then
+            echo "No changes to commit."
+          else
+            git add src/Clash/RemoteConfig/Lainbo.ini
+            git commit -m "chore: weekly sync Lainbo.ini from upstream and apply local content edits"
+            git push
+          fi
