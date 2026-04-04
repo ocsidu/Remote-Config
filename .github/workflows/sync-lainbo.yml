@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout target repo (your repo)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Checkout upstream repo (lainbo/gists-hub@master)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: lainbo/gists-hub
           ref: master
