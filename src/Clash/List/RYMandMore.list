@@ -1,5 +1,5 @@
-DOMAIN,challenges.cloudflare.com
-DOMAIN,stun.cloudflare.com
+DOMAIN-SUFFIX,challenges.cloudflare.com
+DOMAIN-SUFFIX,stun.cloudflare.com
 DOMAIN-SUFFIX,whosampled.com
 DOMAIN-SUFFIX,discogs.com
 DOMAIN-SUFFIX,boomkat.com
