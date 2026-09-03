@@ -10,7 +10,7 @@ sed -i '/^custom_proxy_group=💬 AI专用/a\custom_proxy_group=🎵 RYM和其�
 awk '
     { print }
     $0 == "emoji=(?i:expire|时间|过期),🕒" {
-        print "emoji=(?i:Tokyo),🇯🇵"
+        print "emoji=(?i:.*Tokyo.*),🇯🇵"
         print "emoji=(?i:Oregon),🇺🇸"
         print "emoji=(?i:Seoul),🇰🇷"
         print "emoji=(?i:Montreal),🇨🇦"
