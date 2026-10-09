@@ -42,3 +42,12 @@ if grep -qE "$india_re" "$file"; then
     fi
     rm -f /tmp/india_lines.txt
 fi
+
+# 移除广告规则集和广告策略组。
+sed -i   -e '/^[[:space:]]*ruleset[[:space:]]*=[[:space:]]*🛡️ 广告拦截[[:space:]]*,/d'   -e '/^[[:space:]]*custom_proxy_group[[:space:]]*=[[:space:]]*🛡️ 广告拦截[[:space:]]*`/d'   "$file"
+
+# 若上游新增了其他地方的广告组引用，让工作流显式失败。
+if grep -nE '^[[:space:]]*(ruleset|custom_proxy_group)[[:space:]]*=.*🛡️ 广告拦截' "$file"; then
+    echo '错误：仍存在广告策略组引用，请检查上游配置。' >&2
+    exit 1
+fi
